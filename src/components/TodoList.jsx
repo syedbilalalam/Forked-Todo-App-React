@@ -1,11 +1,15 @@
 import { useSelector } from "react-redux";
 import TodoItem from "./TodoItem";
+import { updateTodoSession } from "../redux/reducer";
 
 const TodoList = () => {
   const filteredTodos = useSelector((state) => {
     const todos = state.todos;
     const filter = state.filter;
     const searchTerm = state.searchTerm.toLowerCase(); // Convert search term to lowercase for case-insensitive search
+
+    // Updating session
+    updateTodoSession(todos);
 
     return todos.filter((todo) => {
       const matchesFilter = (filter === 'COMPLETED' && todo.completed) ||

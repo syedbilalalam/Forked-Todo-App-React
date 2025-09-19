@@ -10,7 +10,29 @@ import {
     UPDATE_SEARCH_TERM,
   } from './actionTypes';
   
-  const initialState = { todos: [], filter: 'ALL', searchTerm: '' };
+  export const updateTodoSession = (todos) => {
+    localStorage.setItem(
+      'todoSession',
+      JSON.stringify(todos)
+    );
+  }
+  
+  const initialTodos = (()=>{
+    let todos = [];
+
+    const todoSession = localStorage.getItem('todoSession');
+    if (!todoSession) return todos;
+    
+    try {
+      const parsedTodos = JSON.parse(todoSession);
+      return parsedTodos;
+    }
+    catch {
+      return todos;
+    }
+  })();
+  
+  const initialState = { todos: initialTodos, filter: 'ALL', searchTerm: '' };
   
   const todoReducer = (state = initialState, action) => {
     switch (action.type) {
